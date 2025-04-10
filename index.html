@@ -67,20 +67,19 @@
         }
 
         .leaflet-popup-content-wrapper {
-            min-width: 30vw !important;
+            min-width: 25vw !important;
         }/*
         .leaflet-popup-content-wrapper {
     width: 40vw !important;
   }*/
-  .leaflet-popup-content {
-    width: 90% !important;
-  }
+        .leaflet-popup-content {
+            width: 90% !important;  /* 枠に合わせて中身を広げる */
+            box-sizing: border-box;  /* パディング分も含めてちょうどに */
+        }
+
         @media screen and (max-width: 1024px) {
             .leaflet-popup-content-wrapper {
-                min-width: 60vw !important;
-            }
-            .leaflet-popup-content {
-                width: 90% !important;
+                min-width: 70vw !important;
             }
             .leaflet-control-layers-selector {
                 width: 24px;
