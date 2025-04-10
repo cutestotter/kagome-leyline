@@ -73,8 +73,8 @@
             }
             .icon_dark,
             .icon_normal {
-                width: 28px;
-                height: 28px;
+                width: 60px;
+                height: 60px;
             }
 
             .location-tooltip {
@@ -269,6 +269,8 @@
         let isMobile;
 
         function init() {
+            isMobile = window.matchMedia('(max-width: 1024px)').matches;
+
             map = L.map('map', {zoomControl:false});
             map.setView([35.0, 137.0], 7.5);
             
@@ -305,7 +307,6 @@
                 "六芒星表示": hexMarker
             };
 
-            const isMobile = window.matchMedia('(max-width: 1024px)').matches;
             layerControl = L.control.layers(baseMaps, overlayLayers, {collapsed: !isMobile}).addTo(map);
 
             // ベースレイヤー（地図）が切り替わった時に呼ばれる
@@ -339,11 +340,14 @@
 
             var divicon;
             var linestyle;
+            var iconsize = 14;
+            if (isMobile) iconsize = 60;    // cssの.icon_dark/normalのサイズに合わせる
+
             if (darkMode) {
-                divicon = L.divIcon({ className: 'icon_dark'});
+                divicon = L.divIcon({ className: 'icon_dark', iconSize: iconsize});
                 linestyle = 'glowing-line-dark';
             } else {
-                divicon = L.divIcon({ className: 'icon_normal'});
+                divicon = L.divIcon({ className: 'icon_normal', iconSize: iconsize});
                 linestyle = 'glowing-line-normal';
             }
 
