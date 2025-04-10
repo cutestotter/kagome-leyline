@@ -66,10 +66,15 @@
             height: auto;
         }
 
-        @media (max-width: 1024px) {
-            .leaflet-popup-content {
-                max-width: 90vw !important; /* ポップアップの横幅を画面幅の90%まで拡張 */
-            }
+        .leaflet-popup-content-wrapper {
+            max-width: none !important;
+            width: auto !important;
+        }
+        .leaflet-popup {
+            max-width: none !important;
+        }
+
+        @media screen and (max-width: 1024px) {
             .leaflet-control-layers-selector {
                 width: 24px;
                 height: 24px;
