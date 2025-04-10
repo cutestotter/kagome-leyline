@@ -43,18 +43,22 @@
         .location-tooltip {
             background-color: rgba(0, 0, 0, 0.5); /* 半透明の黒 */
             color: white;
-            font-size: 13px;
+            font-size: 0.8rem;
             padding: 4px;
             border-radius: 5px;
             border-color: rgba(255, 255, 255, 0.3); /* 半透明の黒 */
         }
 
+        .leaflet-control-layers {
+                font-size: 1rem;
+        }
+
         .popup-description-header {
             font-weight: bold;
-            font-size: 17px;
+            font-size: 1.1rem;
         }
         .popup-description-content {
-            font-size: 15px;
+            font-size: 0.9rem;
             max-width: 300px;
             overflow: hidden;
         }
@@ -65,37 +69,14 @@
         }
 
         @media (max-width: 1024px) {
-            .leaflet-control-layers {
-                font-size: 22px;
-            }
             .leaflet-control-layers-selector {
                 width: 24px;
                 height: 24px;
-            }
-            .leaflet-control-layers label {
-                font-size: 22px;
-                margin-bottom: 8px;
             }
             .icon_dark,
             .icon_normal {
                 width: 28px;
                 height: 28px;
-            }
-
-            .popup-description-header {
-                font-size: 25px;
-            }
-            .popup-description-content {
-                font-size: 22px;
-            }
-
-            .location-tooltip {
-                font-size: 22px;
-                padding: 6px;
-            }
-            .leaflet-bottom.leaflet-right {
-                bottom: 20px;
-                right: 20px;
             }
         }
     </style>
