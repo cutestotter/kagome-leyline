@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Leaflet + Canvas 六芒星 常時表示</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <style>
+    html, body { height: 100%; margin: 0; }
+    #map { width: 100%; height: 100%; position: relative; }
+    #overlayCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <canvas id="overlayCanvas"></canvas>
+
+  <script>
+    const map = L.map('map').setView([35.0, 135.0], 15);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    const canvas = document.getElementById('overlayCanvas');
+    const ctx = canvas.getContext('2d');
+
+    let lastLatLng = null; // 最後に描いた座標（緯度経度）
+
+    function resizeCanvas() {
+      const rect = map.getContainer().getBoundingClientRect();
+      canvas.width = rect.width;
+      canvas.height = rect.height;
+      canvas.style.width = rect.width + "px";
+      canvas.style.height = rect.height + "px";
+    }
+
+    function drawHexagramAtLatLng(latlng, size) {
+      if (!latlng) return;
+
+      const point = map.latLngToContainerPoint(latlng);
+      drawHexagram(point.x, point.y, size);
+      ctx.fillText('w=' + window.innerWidth, point.x + 80, point.y);
+    }
+
+    function drawHexagram(x, y, size) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = "black";
+            ctx.lineWidth = 2;
+
+            let outerPoints = []; // 六芒星の尖った頂点
+            let innerPoints = []; // 六芒星の凹んだ部分
+
+            for (let i = 0; i < 6; i++) {
+                let angle = Math.PI / 3 * i - Math.PI / 2;
+                let px = x + size * Math.cos(angle);
+                let py = y + size * Math.sin(angle);
+                outerPoints.push({ x: px, y: py });
+
+                let innerAngle = angle + Math.PI / 6;
+                let innerPx = x + (size * 0.57) * Math.cos(innerAngle);
+                let innerPy = y + (size * 0.57) * Math.sin(innerAngle);
+                innerPoints.push({ x: innerPx, y: innerPy });
+            }
+
+            // 六芒星の輪郭（尖った部分→凹んだ部分→尖った部分…の順で一周する）
+            ctx.beginPath();
+            for (let i = 0; i < 6; i++) {
+                if (i === 0) {
+                    ctx.moveTo(outerPoints[i].x, outerPoints[i].y);
+                }
+                ctx.lineTo(innerPoints[i].x, innerPoints[i].y);
+                ctx.lineTo(outerPoints[(i + 1) % 6].x, outerPoints[(i + 1) % 6].y);
+            }
+            ctx.closePath();
+            ctx.stroke();
+
+            // 中心から頂点（尖った部分）への線
+            ctx.beginPath();
+            for (let i = 0; i < 6; i++) {
+                ctx.moveTo(x, y);
+                ctx.lineTo(outerPoints[i].x, outerPoints[i].y);
+            }
+            ctx.stroke();
+
+            // 中心から凹んだ部分への線
+            ctx.beginPath();
+            for (let i = 0; i < 6; i++) {
+                ctx.moveTo(x, y);
+                ctx.lineTo(innerPoints[i].x, innerPoints[i].y);
+            }
+            ctx.stroke();
+        }
+
+    map.on('mousemove', function(e) {
+      lastLatLng = e.latlng;
+      drawHexagramAtLatLng(lastLatLng, 80);
+    });
+
+    function syncCanvasWithMap() {
+      const rect = map.getContainer().getBoundingClientRect();
+      canvas.style.left = rect.left + "px";
+      canvas.style.top = rect.top + "px";
+      resizeCanvas();
+      drawHexagramAtLatLng(lastLatLng, 80); // ← ここで再描画
+    }
+
+    window.addEventListener('resize', syncCanvasWithMap);
+    map.on('resize move zoom', syncCanvasWithMap); // ← 地図操作時に描き直す
+
+    syncCanvasWithMap(); // 初回実行
+  </script>
+</body>
+</html>
