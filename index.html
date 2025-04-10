@@ -27,15 +27,15 @@
             filter: drop-shadow(0px 0px 6px rgba(216, 150, 100, 0.5));
         }
         .icon_dark {
-            width: 14px !important;
-            height: 14px !important;
+            width: 14px;
+            height: 14px;
             border-radius: 50%;
             box-shadow: 0px 0px 10px rgba(0, 0, 255, 0.5);
             background-color: rgba(27, 126, 225, 0.7);
         }
         .icon_normal {
-            width: 14px !important;
-            height: 14px !important;
+            width: 14px;
+            height: 14px;
             border-radius: 50%;
             box-shadow: 0px 0px 10px rgba(255, 0, 0, 0.5);
             background-color: rgba(255, 0, 0, 0.7);
@@ -64,11 +64,17 @@
             .leaflet-control-layers {
                 font-size: 18px;
             }
-
+            .leaflet-control-layers-selector {
+                width: 20px;
+                height: 20px;
+            }
+            .leaflet-control-layers label {
+                margin-bottom: 8px;
+            }
             .icon_dark,
             .icon_normal {
-                width: 28px !important;
-                height: 28px !important;
+                width: 128px;
+                height: 128px;
             }
 
             .location-tooltip {
@@ -263,8 +269,6 @@
         let isMobile;
 
         function init() {
-            isMobile = window.innerWidth <= mobileWidthMax;   // 横幅mobileWidthMaxドット以下ならスマホ・モバイルと判定
-
             map = L.map('map', {zoomControl:false});
             map.setView([35.0, 137.0], 7.5);
             
@@ -301,12 +305,9 @@
                 "六芒星表示": hexMarker
             };
 
-            if (isMobile) {
-                // モバイルではコントロールを折り畳まないで常時表示
-                layerControl = L.control.layers(baseMaps, overlayLayers, {collapsed: false}).addTo(map);
-            } else {
-                layerControl = L.control.layers(baseMaps, overlayLayers).addTo(map);
-            }
+            const isMobile = window.matchMedia('(max-width: 1024px)').matches;
+            layerControl = L.control.layers(baseMaps, overlayLayers, {collapsed: !isMobile}).addTo(map);
+
             // ベースレイヤー（地図）が切り替わった時に呼ばれる
             map.on('baselayerchange', function(e) {
                 darkMode = !darkMode;
