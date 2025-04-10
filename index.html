@@ -59,7 +59,6 @@
         }
         .popup-description-content {
             font-size: 0.9rem;
-            max-width: 300px;
             overflow: hidden;
         }
 
@@ -369,7 +368,7 @@
                     <div class="popup-description-content">
                         ${loc.description || '説明がありません'}
                     </div>`;
-                m.bindPopup(html_pu, {minWidth: 300});
+                m.bindPopup(html_pu);
                 markers.push(m);
             });
 
