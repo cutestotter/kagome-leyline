@@ -48,6 +48,17 @@
             border-radius: 5px;
             border-color: rgba(255, 255, 255, 0.3); /* 半透明の黒 */
         }
+
+        .popup-description-header {
+            font-weight: bold;
+            font-size: 17px;
+        }
+        .popup-description-content {
+            font-size: 15px;
+            max-width: 300px;
+            overflow: hidden;
+        }
+
         img {
             width: 200px;
             height: auto;
@@ -69,6 +80,13 @@
             .icon_normal {
                 width: 28px;
                 height: 28px;
+            }
+
+            .popup-description-header {
+                font-size: 20px;
+            }
+            .popup-description-content {
+                font-size: 18px;
             }
 
             .location-tooltip {
@@ -301,7 +319,7 @@
                 "六芒星表示": hexMarker
             };
 
-            layerControl = L.control.layers(baseMaps, overlayLayers, {collapsed: !isMobile}).addTo(map);
+            layerControl = L.control.layers(baseMaps, overlayLayers, {collapsed:false}).addTo(map);
 
             // ベースレイヤー（地図）が切り替わった時に呼ばれる
             map.on('baselayerchange', function(e) {
@@ -348,8 +366,8 @@
             // 登録
             Object.entries(locations).forEach(([name, loc]) => {
                 var m = L.marker([loc.lat, loc.lng], {icon: divicon}).addTo(map);
-                var html_pu = `<b>${name}</b><br>
-                    <div style='max-width: 300px; overflow: hidden;'>
+                var html_pu = `<div class="popup-description-header">${name}</div>
+                    <div class="popup-description-content">
                         ${loc.description || '説明がありません'}
                     </div>`;
                 m.bindPopup(html_pu, {minWidth: 300});
