@@ -23,16 +23,14 @@
 
         /* 著作権表示関係のスタイル */
         .credit-box {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
+            position: relative;
+            display: flex;
+            justify-content: flex-start; /* 横方向 */
+            align-items: flex-end; /* 縦方向 */
             color: white;
             text-shadow: 0 0 3px rgba(0, 0, 0, 0.6);
             padding: 10px 14px;
             font-size: 1rem;
-            display: flex;
-            align-items: flex-start;
             gap: 4px;
             z-index: 1000; /* ← Leafletの地図レイヤーより上に表示するため重要！ */
         }
@@ -433,6 +431,28 @@
 
             layerControl = L.control.layers(baseMaps, overlayLayers, {collapsed:false}).addTo(map);
 
+            // コントロールの中にHTMLを挿入
+            setTimeout(() => {
+                const controls = document.querySelector('.leaflet-control-layers-overlays');
+                if (controls) {
+                    // 区切り線の追加
+                    const separator = document.createElement('div');
+                    separator.className = 'leaflet-control-layers-separator';
+                    controls.appendChild(separator);
+                    // カスタムHTML
+                    const customDiv = document.createElement('div');
+                    customDiv.innerHTML = `
+                            <a href="https://www.youtube.com/@mikuriyajakusui" target="_blank" title="YouTube">
+                                <i class="fab fa-youtube"></i> YouTube
+                            </a>|
+                            <a href="https://x.com/mkry_jakusui" target="_blank" title="X (旧Twitter)">
+                                <i class="fa-brands fa-x-twitter"></i> 
+                            </a>
+                    `;
+                    controls.appendChild(customDiv);
+                }
+            }, 0); // ← DOMが生成されるまで少し待つ
+
             // ベースレイヤー（地図）が切り替わった時に呼ばれる
             map.on('baselayerchange', function(e) {
                 darkMode = !darkMode;
@@ -524,13 +544,9 @@
     <div class="credit-box">
         <div class="credit">
             <span>籠目のレイライン</span>
-            &copy; 2025 みくりや若水<img src="./images/mikuriya.jpg" alt="みくりや若水" />
-            <a href="https://www.youtube.com/@mikuriyajakusui" target="_blank" title="YouTube">
-                <i class="fab fa-youtube"></i> YouTube
-            </a>|
-            <a href="https://x.com/mkry_jakusui" target="_blank" title="X (旧Twitter)">
-                <i class="fa-brands fa-x-twitter"></i> 
-            </a>
+            &copy; 2025 みくりや若水
+            <!--
+            -->
         </div>
     </div>
 </body>
