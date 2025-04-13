@@ -23,7 +23,7 @@
 
         /* 著作権表示関係のスタイル */
         .credit-box {
-            position: relative;
+            position: absolute;
             display: flex;
             justify-content: flex-start; /* 横方向 */
             align-items: flex-end; /* 縦方向 */
@@ -54,7 +54,7 @@
         }
 
         .credit a {
-            color: white;
+            color: rgb(231, 50, 50);
             margin-right: 5px;
             text-decoration: none;
         }
@@ -128,7 +128,7 @@
 
         @media (max-width: 1024px) {
             .credit-box {
-                font-size: 2rem;
+                font-size: 2.2rem;
             }
             .leaflet-popup-content-wrapper {
                 min-width: 60vw !important;
@@ -442,12 +442,14 @@
                     // カスタムHTML
                     const customDiv = document.createElement('div');
                     customDiv.innerHTML = `
-                            <a href="https://www.youtube.com/@mikuriyajakusui" target="_blank" title="YouTube">
-                                <i class="fab fa-youtube"></i> YouTube
-                            </a>|
-                            <a href="https://x.com/mkry_jakusui" target="_blank" title="X (旧Twitter)">
-                                <i class="fa-brands fa-x-twitter"></i> 
-                            </a>
+                            <div class="credit">
+                                <a href="https://www.youtube.com/@mikuriyajakusui" target="_blank" title="YouTube">
+                                    <i class="fab fa-youtube"></i> YouTube
+                                </a>|
+                                <a href="https://x.com/mkry_jakusui" target="_blank" title="X (旧Twitter)">
+                                    <i class="fa-brands fa-x-twitter"></i> 
+                                </a>
+                            </div>
                     `;
                     controls.appendChild(customDiv);
                 }
@@ -543,10 +545,7 @@
     <div id="map"></div>
     <div class="credit-box">
         <div class="credit">
-            <span>籠目のレイライン</span>
-            &copy; 2025 みくりや若水
-            <!--
-            -->
+            <span>籠目のレイライン&copy; 2025 みくりや若水</span>
         </div>
     </div>
 </body>
