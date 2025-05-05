@@ -432,11 +432,6 @@
             hexMarker = L.marker([center.lat, center.lng], {icon: hexagramIcon(), title:"麻賀多神社の神紋", draggable: true, opacity: 0.4});
             hexMarker.name = "六芒星"; // ここで指定した名前はoverlayadd/overlayremoveイベントのe.layer.nameで取得可能
 
-            // 六芒星の右クリック／長押しのメニュー表示を禁止
-            hexMarker.on('contextmenu', function(e) {
-                e.originalEvent.preventDefault();
-            });
-
             //　オーバーレイレイヤーに登録
             var tooltipLayer = L.layerGroup(tooltips);
             var hexLayer = L.layerGroup([hexMarker]);
@@ -561,7 +556,7 @@
 
     </script>
 </head>
-<body onload="init()" oncontextmenu="return false;">
+<body onload="init()">
     <div id="map"></div>
     <div class="credit-box">
         <div class="credit">
