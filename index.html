@@ -20,6 +20,10 @@
             border-left: 5px solid #95cfdb;
             font-style: italic;
         }
+        .leaflet-marker-icon.no-touch-image {
+            user-select: none;
+            touch-action: none;
+        }
 
         /* 著作権表示関係のスタイル */
         .credit-box {
@@ -545,7 +549,8 @@
 
             var hex = L.icon({
                 iconUrl: './images/麻賀多神社の神紋.png',
-                iconSize: [hexicon_size, hexicon_size]
+                iconSize: [hexicon_size, hexicon_size],
+                className: 'no-touch-image'
             });
             return hex;
         }
